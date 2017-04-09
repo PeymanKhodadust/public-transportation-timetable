@@ -1,39 +1,30 @@
 import * as React from "react";
+import * as MobxReact from "mobx-react";
+
 import { SearchView } from "./search-view";
-import {ConnectionCoordinates} from "./connection-coordinates";
 
-export interface MainProps {}
-export interface MainState {from: string, to: string, progress: state}
+import {ConnectionStore} from "../stores/connection-store";
+import {MainState} from "./interfaces"
 
-const enum state{
-    search= 1,
-    result= 2,
-    detail= 3
-}
+const connectionStore = new ConnectionStore();
 
-export class MainComponent extends React.Component<MainProps, MainState> {
+@MobxReact.observer
+export class MainComponent extends React.Component<{}, MainState> {
     constructor (props: any) {
         super(props);
-        this.state = {
-            from: "",
-            to: "",
-            progress: state.search;
-        }
     }
-    public handleOnChangeFrom (event: any) {
-        this.setState({from: event.target.value});
-        console.log("from: " + this.state.from + "\n");
-    }
-    public handleOnChangeTo (event: any) {
-        this.setState({to: event.target.value});
-        console.log("to: " + this.state.to + "\n");
-    }
+
     render() {
+        console.log("mainComponent: \nfrom: " + connectionStore.connectionInput[0] + ", to: " + connectionStore.connectionInput[1]);
+
         return (
             <div>
               <h1>Main Component</h1>
-              <SearchView onChangeFrom={this.handleOnChangeFrom} onChangeTo={this.handleOnChangeTo} connectionCoordinates={ConnectionCoordinates}/>
+                <h2>from: {connectionStore.connectionInput[0]}, to: {connectionStore.connectionInput[1]}</h2>
+              <SearchView store={ connectionStore }/>
             </div>
         );
     }
 }
+connectionStore.connectionInput[0] = "Zurich";
+connectionStore.connectionInput[1] = "Bern";

@@ -5,12 +5,16 @@
         "noImplicitAny": false,
         "module": "commonjs",
         "target": "es6",
-        "jsx": "react"
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "suppressImplicitAnyIndexErrors": true
     },
 
     "include": [
         "./src/**/*",
         "./src/components/*.tsx",
+        "./src/stores/*.ts",
         "./spec/**/*"
     ],
 
