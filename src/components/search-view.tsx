@@ -12,7 +12,6 @@ export class SearchView extends React.Component<SearchViewProps, {}> {
     render() {
         const connection = this.props.store.connectionInput;
         console.log("Searchview:\nfrom: " + this.props.store.connectionInput[0] + ", to: " + this.props.store.connectionInput[1]);
-
         return (
             <div>
                 <h3> search view </h3>

@@ -1,31 +1,28 @@
 import * as React from "react";
 import * as MobxReact from "mobx-react";
+import {AutosuggestingInput} from "./autosuggesting-input";
+
 import {ConnectionInputProps} from "./interfaces";
 @MobxReact.observer
 export class ConnectionInput extends React.Component<ConnectionInputProps, any> {
     constructor(props: any) {
+        console.log(JSON.stringify(props));
+
         super(props);
-        this.state = {from: "", to: ""};
-    }
-    public handleChangeFrom (from: string) {
-        this.props.connection[0] = from;
-    }
-    public handleChangeTo (to: string) {
-        this.props.connection[1] = to;
     }
 
     render() {
         const connection = this.props.connection;
-        //this.props.connection[0] += "changed";
+        console.log("connection-input: ...  " + connection[0]);
         return (
             <div>
                 <div className="form-group">
-                    <label htmlFor="from">Von:</label>
-                    <input type="text" className="form-control" value={connection[0]} onChange={event => this.handleChangeFrom(event.target.value)} id="from" />
+                    <label htmlFor="from">From:</label>
+                    <AutosuggestingInput connection={connection} index={0}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="to">Nach:</label>
-                    <input type="text" className="form-control" value={connection[1]} onChange={event => this.handleChangeTo(event.target.value)} id="to" />
+                    <label htmlFor="to">To:</label>
+                    <AutosuggestingInput connection={connection} index={1}/>
                 </div>
             </div>
         );
