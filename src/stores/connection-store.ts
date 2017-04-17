@@ -20,7 +20,7 @@ export class ConnectionStore {
         Mobx.autorun(() => console.log(this.report));
     }
     public init() {
-        this.connectionInput = ["from", "to"];
+        this.connectionInput = ["", ""];
         this.fromLocation = {};
         this.toLocation = {};
     }

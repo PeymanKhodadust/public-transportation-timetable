@@ -1,79 +1,20 @@
+import * as MobxReact from "mobx-react";
 import * as Autosuggest from "react-autosuggest";
 import * as React from "react";
+
+import {ajax} from "../utils/ajax";
 
 /* ---------- */
 /*    Data    */
 /* ---------- */
 
-const languages = [
-    {
-        name: 'C',
-        year: 1972
-    },
-    {
-        name: 'C#',
-        year: 2000
-    },
-    {
-        name: 'C++',
-        year: 1983
-    },
-    {
-        name: 'Clojure',
-        year: 2007
-    },
-    {
-        name: 'Elm',
-        year: 2012
-    },
-    {
-        name: 'Go',
-        year: 2009
-    },
-    {
-        name: 'Haskell',
-        year: 1990
-    },
-    {
-        name: 'Java',
-        year: 1995
-    },
-    {
-        name: 'Javascript',
-        year: 1995
-    },
-    {
-        name: 'Perl',
-        year: 1987
-    },
-    {
-        name: 'PHP',
-        year: 1995
-    },
-    {
-        name: 'Python',
-        year: 1991
-    },
-    {
-        name: 'Ruby',
-        year: 1995
-    },
-    {
-        name: 'Scala',
-        year: 2003
-    }
-];
+var url = "https://transport.opendata.ch/v1/locations?query=";
+
+
 
 function getMatchingLocations(value) {
     const escapedValue = escapeRegexCharacters(value.trim());
-
-    if (escapedValue === '') {
-        return [];
-    }
-
-    const regex = new RegExp('^' + escapedValue, 'i');
-
-    return languages.filter(language => regex.test(language.name));
+    return ajax.get(url + escapedValue);
 }
 
 /* ----------- */
@@ -98,7 +39,7 @@ function renderSuggestion(suggestion) {
         <span>{suggestion.name}</span>
     );
 }
-
+@MobxReact.observer
 export class AutosuggestingInput extends React.Component<{connection: string[], index: number}, any> {
     constructor(props: any) {
         super(props);
@@ -106,27 +47,25 @@ export class AutosuggestingInput extends React.Component<{connection: string[], 
         this.lastRequestId = null;
         this.state = {value: this.props.connection[this.props.index], suggestions: [], isLoading: false}
     }
+
     public lastRequestId: any;
     loadSuggestions(value) {
-        // Cancel the previous request
-        if (this.lastRequestId !== null) {
-            clearTimeout(this.lastRequestId);
-        }
+        getMatchingLocations(value)
+            .then(JSON.parse)
+            .then((r) => {
+                this.setState({
+                    isLoading: false,
+                    suggestions: r.stations
+                });
+            })
+            .catch(() => { console.log("get request not successfull!!!!!!!!!!!"); });
 
-        this.state.isLoading = true;
-
-        // Fake request
-        this.lastRequestId = setTimeout(() => {
-            this.setState({
-                isLoading: false,
-                suggestions: getMatchingLocations(value)
-            });
-        }, 1000);
     }
 
-    onChange = (event) => {
-        console.log("onChange: ..." + event.target.value)
-        this.props.connection[this.props.index] = event.target.value;
+    onChange = (event, {newValue}) => {
+        console.log("onChange: ... value: " + newValue);
+        this.setState({value: newValue});
+        this.props.connection[this.props.index] = newValue;
     }
 
     onSuggestionsFetchRequested = ({ value }) => {
@@ -141,8 +80,8 @@ export class AutosuggestingInput extends React.Component<{connection: string[], 
     render() {
         const { value, suggestions, isLoading } = this.state;
         const inputProps = {
-            placeholder: "Type 'c'",
-            value: this.props.connection[this.props.index],
+            placeholder: this.props.index? "to" : "from",
+            value: value,
             onChange: this.onChange
         };
         const status = (isLoading ? 'Loading...' : 'Type to load suggestions');

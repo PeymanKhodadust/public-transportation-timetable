@@ -15,16 +15,11 @@ export class MainComponent extends React.Component<{}, MainState> {
     }
 
     render() {
-        console.log("mainComponent: \nfrom: " + connectionStore.connectionInput[0] + ", to: " + connectionStore.connectionInput[1]);
-
         return (
             <div>
-              <h1>Main Component</h1>
-                <h2>from: {connectionStore.connectionInput[0]}, to: {connectionStore.connectionInput[1]}</h2>
-              <SearchView store={ connectionStore }/>
+                <h1>Main Component</h1>
+                <SearchView store={ connectionStore }/>
             </div>
         );
     }
 }
-connectionStore.connectionInput[0] = "Zurich";
-connectionStore.connectionInput[1] = "Bern";
