@@ -13,7 +13,7 @@ export class SearchView extends React.Component<viewProps, {}> {
         super(props);
     }
 
-    handleButtonAction = () => {
+    onSearchClick = () => {
         let from = this.props.store.connectionInput[0];
         let to = this.props.store.connectionInput[1];
         ajax.get(url + from + "&to=" + to)
@@ -22,8 +22,11 @@ export class SearchView extends React.Component<viewProps, {}> {
                 this.props.store.connections = res.connections;
                 if(this.props.store.connections.length > 0)
                     this.props.store.appState = stateEnum.result;
-            })
-            .catch(() => { console.log("get request for connectons failed"); });
+                    console.log("StateChange: ---" + this.props.store.appState);
+            }, () => {
+                    console.log("get request for connectons failed");
+                }
+            );
     }
 
     render() {
@@ -31,7 +34,7 @@ export class SearchView extends React.Component<viewProps, {}> {
         return (
             <div>
                 <ConnectionInput connection={connection}/>
-                <button onClick={this.handleButtonAction} onTouchEnd={this.handleButtonAction}>search connection</button>
+                <button onClick={this.onSearchClick} onTouchEnd={this.onSearchClick}>search connection</button>
             </div>
         );
     }

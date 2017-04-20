@@ -57,13 +57,12 @@ export class AutosuggestingInput extends React.Component<{connection: string[], 
                     isLoading: false,
                     suggestions: r.stations
                 });
-            })
+            }, undefined)
             .catch(() => { console.log("get request not successfull!!!!!!!!!!!"); });
 
     }
 
     onChange = (event, {newValue}) => {
-        console.log("onChange: ... value: " + newValue);
         this.setState({value: newValue});
         this.props.connection[this.props.index] = newValue;
     }

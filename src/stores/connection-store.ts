@@ -12,6 +12,9 @@ export class ConnectionStore {
     @Mobx.observable
     appState: stateEnum;
 
+    @Mobx.observable
+    detailedConnection: any;
+
 
     constructor(){
         this.init();
@@ -24,7 +27,7 @@ export class ConnectionStore {
     @Mobx.computed
     public get report(): string {
         return "Object stateEnum: \n from: " + this.connectionInput[0] + ", to: " + this.connectionInput[1]
-            + "\nconnections: " + JSON.stringify(this.connections);
+            /*+ "\nconnections: " + JSON.stringify(this.connections)*/;
     }
 }
 

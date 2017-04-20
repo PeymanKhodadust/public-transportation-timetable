@@ -7,14 +7,11 @@ import {ConnectionInputProps} from "../utils/interfaces";
 @MobxReact.observer
 export class ConnectionInput extends React.Component<ConnectionInputProps, any> {
     constructor(props: any) {
-        //console.log("connection-input -> props: " + JSON.stringify(props));
-
         super(props);
     }
 
     render() {
         const connection = this.props.connection;
-        //console.log("connection-input: ...  " + connection[0]);
         return (
             <div>
                 <div className="form-group">
