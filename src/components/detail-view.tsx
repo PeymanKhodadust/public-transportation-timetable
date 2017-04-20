@@ -1,5 +1,6 @@
 import * as React from "react";
 import {stateEnum, viewProps} from "../utils/interfaces";
+import {DateTime} from "../utils/date-time";
 
 export class DetailView extends React.Component<viewProps, {}> {
     constructor(props: any) {
@@ -10,22 +11,28 @@ export class DetailView extends React.Component<viewProps, {}> {
     }
     render() {
         const connection = this.props.store.detailedConnection;
-        const journeySections = connection.sections.map((section) => {
+        const journeySections = connection.sections.map((section, index) => {
             if(section.journey != null) {
                 return (
-                    <div>
+                    <div key={"journey-section-No-" + index + 1}>
                         <h5>
-                            {section.departure.departure + " ------ " + section.departure.station.name}
+                            {
+                                DateTime.getFormattedTimeString(new Date(section.departure.departure)) + " ------ " +
+                                section.departure.station.name
+                            }
                         </h5>
                         <p>{ section.journey.category + section.journey.number }</p>
                         <h5>
-                            {section.arrival.arrival + " ------ " + section.arrival.station.name}
+                            {
+                                DateTime.getFormattedTimeString(new Date(section.arrival.arrival)) + " ------ " +
+                                section.arrival.station.name
+                            }
                         </h5>
                     </div>
                 );
             }else {
                 return (
-                    <div>
+                    <div key={"journey-section-No-" + index + 1}>
                         <p>--------------------------------------------------</p>
                         <p>{ "Walk for so much time: " + section.walk.duration}</p>
                         <p>--------------------------------------------------</p>

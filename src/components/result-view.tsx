@@ -13,8 +13,8 @@ export class ResultView extends React.Component<viewProps, {}> {
     }
 
     render() {
-        const connections = this.props.store.connections.map((connection) => {
-           return  <ConnectionOverview connection={ connection } store={this.props.store}/>;
+        const connections = this.props.store.connections.map((connection, index) => {
+           return  <ConnectionOverview connection={ connection } store={this.props.store} key={"connection-overview-no-" + index + 1}/>;
         });
         return (
             <div>

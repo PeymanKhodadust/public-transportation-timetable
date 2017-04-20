@@ -16,6 +16,7 @@ export class SearchView extends React.Component<viewProps, {}> {
     onSearchClick = () => {
         let from = this.props.store.connectionInput[0];
         let to = this.props.store.connectionInput[1];
+        //const now = new Date();
         ajax.get(url + from + "&to=" + to)
             .then(JSON.parse)
             .then((res) => {

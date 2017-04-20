@@ -1,5 +1,6 @@
 import * as React from "react";
 import {ConnectionOverviewProps, stateEnum} from "../utils/interfaces";
+import {DateTime} from "../utils/date-time";
 
 export class ConnectionOverview extends React.Component<ConnectionOverviewProps, {}> {
     constructor(props: any) {
@@ -13,21 +14,18 @@ export class ConnectionOverview extends React.Component<ConnectionOverviewProps,
     render() {
         const dep = new Date(this.props.connection.from.departure);
         const arr = new Date(this.props.connection.to.arrival);
-        console.log(JSON.stringify(this.props.connection.sections));
-        const sections = this.props.connection.sections.map((section) => {
+        const sections = this.props.connection.sections.map((section, index) => {
             if(section.journey != null)
-                return <span>{ section.journey.category + section.journey.number + " --- " }</span>
+                return <span key={"journey-section-No-" + index + 1}>{ section.journey.category + section.journey.number + " --- " }</span>
         });
         return (
             <div onClick={this.onDetailClick}>
                 <h4>{
-                        dep.getHours() < 10 ? "0" + dep.getHours() : dep.getHours() + ":" + (dep.getMinutes() < 10 ? "0"
-                                + dep.getMinutes() : dep.getMinutes())
+                        DateTime.getFormattedTimeString(dep)
                     }
                     -----------------
                     {
-                        arr.getHours() < 10 ? "0" + arr.getHours() : arr.getHours() + ":" + (arr.getMinutes() < 10 ? "0"
-                                + arr.getMinutes() : arr.getMinutes())
+                        DateTime.getFormattedTimeString(arr)
                     }
                 </h4>
                 <div>
