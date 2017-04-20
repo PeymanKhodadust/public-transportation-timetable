@@ -2,7 +2,8 @@ import * as React from "react";
 import * as MobxReact from "mobx-react";
 import {AutosuggestingInput} from "./autosuggesting-input";
 
-import {ConnectionInputProps} from "./interfaces";
+import {ConnectionInputProps} from "../utils/interfaces";
+
 @MobxReact.observer
 export class ConnectionInput extends React.Component<ConnectionInputProps, any> {
     constructor(props: any) {

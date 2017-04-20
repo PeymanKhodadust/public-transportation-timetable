@@ -1,4 +1,5 @@
 import * as Mobx from "mobx";
+import {stateEnum} from "../utils/interfaces"
 
 export class ConnectionStore {
 
@@ -6,13 +7,10 @@ export class ConnectionStore {
     connectionInput: string[];
 
     @Mobx.observable
-    fromLocation: any;
-
-    @Mobx.observable
-    toLocation: any;
-
-    @Mobx.observable
     connections: any[];
+
+    @Mobx.observable
+    appState: stateEnum;
 
 
     constructor(){
@@ -21,12 +19,12 @@ export class ConnectionStore {
     }
     public init() {
         this.connectionInput = ["", ""];
-        this.fromLocation = {};
-        this.toLocation = {};
+        this.appState = stateEnum.search;
     }
     @Mobx.computed
     public get report(): string {
-        return "Object state: \n from: " + this.connectionInput[0] + ", to: " + this.connectionInput[1];
+        return "Object stateEnum: \n from: " + this.connectionInput[0] + ", to: " + this.connectionInput[1]
+            + "\nconnections: " + JSON.stringify(this.connections);
     }
 }
 
