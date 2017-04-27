@@ -3,6 +3,7 @@ import {ConnectionOverviewProps, stateEnum} from "../utils/interfaces";
 import {DateTime} from "../utils/date-time";
 
 export class ConnectionOverview extends React.Component<ConnectionOverviewProps, {}> {
+
     constructor(props: any) {
         super(props);
     }

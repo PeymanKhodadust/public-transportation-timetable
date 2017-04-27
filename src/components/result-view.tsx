@@ -1,6 +1,6 @@
 import * as React from "react";
-import {stateEnum, viewProps} from "../utils/interfaces";
 
+import {stateEnum, viewProps} from "../utils/interfaces";
 import { ConnectionOverview } from "./connection-overview";
 
 export class ResultView extends React.Component<viewProps, {}> {

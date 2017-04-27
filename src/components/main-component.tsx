@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as MobxReact from "mobx-react";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 import { SearchView } from "./search-view";
 import { ResultView } from "./result-view";
@@ -18,11 +19,15 @@ export class MainComponent extends React.Component<{}, {}> {
 
     render() {
         return (
-            connectionStore.appState === stateEnum.search ?
-                <SearchView store={ connectionStore }/> :
-                connectionStore.appState === stateEnum.result ?
-                    <ResultView store={ connectionStore } /> :
-                    <DetailView store={ connectionStore } />
+            <MuiThemeProvider>
+                {
+                    connectionStore.appState === stateEnum.search ?
+                        <SearchView store={ connectionStore }/> :
+                        connectionStore.appState === stateEnum.result ?
+                            <ResultView store={ connectionStore } /> :
+                            <DetailView store={ connectionStore } />
+                }
+            </MuiThemeProvider>
         );
     }
 }

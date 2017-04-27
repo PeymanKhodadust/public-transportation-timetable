@@ -8,12 +8,13 @@ export declare class ConnectionStore {
     connections : any[];
     appState: stateEnum;
     detailedConnection: any;
+    stationBoard: boolean;
     init(): void;
 }
 export declare interface MainState {appState: stateEnum}
 export declare interface viewProps {
     store: ConnectionStore;
 }
-export declare interface ConnectionInputProps {connection: string[]}
+export declare interface ConnectionInputProps {connection: string[], stationBoard: boolean}
 export declare interface ConnectionOverviewProps {connection: any, store: ConnectionStore}
 

@@ -1,4 +1,5 @@
 export class DateTime {
+
     public static getFormattedTimeString (date: Date): string{
         let res: string = "";
         res = date.getHours() < 10 ? "0" + date.getHours() : date.getHours().toString() ;

@@ -3,12 +3,15 @@ import {stateEnum, viewProps} from "../utils/interfaces";
 import {DateTime} from "../utils/date-time";
 
 export class DetailView extends React.Component<viewProps, {}> {
+
     constructor(props: any) {
         super(props);
     }
+
     onReturnClick = () => {
         this.props.store.appState = stateEnum.result;
     }
+
     render() {
         const connection = this.props.store.detailedConnection;
         const journeySections = connection.sections.map((section, index) => {

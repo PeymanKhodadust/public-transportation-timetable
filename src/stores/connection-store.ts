@@ -15,6 +15,9 @@ export class ConnectionStore {
     @Mobx.observable
     detailedConnection: any;
 
+    @Mobx.observable
+    stationBoard: boolean;
+
 
     constructor(){
         this.init();
@@ -23,6 +26,7 @@ export class ConnectionStore {
     public init() {
         this.connectionInput = ["", ""];
         this.appState = stateEnum.search;
+        this.stationBoard = false;
     }
     @Mobx.computed
     public get report(): string {
