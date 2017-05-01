@@ -1,6 +1,6 @@
 import * as MobxReact from "mobx-react";
-import * as Autosuggest from "react-autosuggest";
 import * as React from "react";
+import AutoComplete from "material-ui/AutoComplete";
 
 import {ajax} from "../utils/ajax";
 
@@ -43,14 +43,13 @@ function renderSuggestion(suggestion) {
 export class AutosuggestingInput extends React.Component<{connection: string[], index: number}, any> {
     constructor(props: any) {
         super(props);
-
-        this.lastRequestId = null;
         this.state = {value: this.props.connection[this.props.index], suggestions: [], isLoading: false}
     }
 
-    public lastRequestId: any;
-    loadSuggestions(value) {
-        getMatchingLocations(value)
+    onChange = (newValue) => {
+        this.setState({value: newValue});
+        this.props.connection[this.props.index] = newValue;
+        getMatchingLocations(newValue)
             .then(JSON.parse)
             .then((r) => {
                 this.setState({
@@ -59,43 +58,26 @@ export class AutosuggestingInput extends React.Component<{connection: string[], 
                 });
             }, undefined)
             .catch(() => { console.log("get request not successfull!!!!!!!!!!!"); });
-
     }
 
-    onChange = (event, {newValue}) => {
-        this.setState({value: newValue});
-        this.props.connection[this.props.index] = newValue;
+    dataSourceConfig = {
+        text: 'name',
+        value: 'name'
     }
-
-    onSuggestionsFetchRequested = ({ value }) => {
-
-        this.loadSuggestions(value);
-    };
-
-    onSuggestionsClearRequested = () => {
-        this.state.suggestions = [];
-    };
 
     render() {
-        const { value, suggestions, isLoading } = this.state;
-        const inputProps = {
-            placeholder: this.props.index? "to" : "from",
-            value: value,
-            onChange: this.onChange
-        };
-        const status = (isLoading ? 'Loading...' : 'Type to load suggestions');
+        const lable: string = (this.props.index ? "Arrival" : "Departure") + " station";
         return (
             <div>
-                <div className="status">
-                    <strong>Status:</strong> {status}
-                </div>
-                <Autosuggest
-                    suggestions={suggestions}
-                    onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                    onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                    getSuggestionValue={getSuggestionValue}
-                    renderSuggestion={renderSuggestion}
-                    inputProps={inputProps} />
+                <AutoComplete
+                    floatingLabelText={lable}
+                    dataSource={this.state.suggestions}
+                    onUpdateInput={this.onChange}
+                    dataSourceConfig={this.dataSourceConfig}
+                    animated={true}
+                    filter={AutoComplete.caseInsensitiveFilter}
+                    maxSearchResults={6}
+                />
             </div>
         );
     }

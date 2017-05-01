@@ -20,13 +20,15 @@ export class MainComponent extends React.Component<{}, {}> {
     render() {
         return (
             <MuiThemeProvider>
-                {
-                    connectionStore.appState === stateEnum.search ?
-                        <SearchView store={ connectionStore }/> :
-                        connectionStore.appState === stateEnum.result ?
-                            <ResultView store={ connectionStore } /> :
-                            <DetailView store={ connectionStore } />
-                }
+                <div className="centrizer">
+                    {
+                        connectionStore.appState === stateEnum.search ?
+                            <SearchView store={ connectionStore }/> :
+                            connectionStore.appState === stateEnum.result ?
+                                <ResultView store={ connectionStore } /> :
+                                <DetailView store={ connectionStore } />
+                    }
+                </div>
             </MuiThemeProvider>
         );
     }

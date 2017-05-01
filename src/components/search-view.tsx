@@ -56,7 +56,7 @@ export class SearchView extends React.Component<viewProps, {}> {
                     <label htmlFor="sb">stationboard</label>
                 </fieldset>*/}
                 <ConnectionInput connection={connection} stationBoard={this.props.store.stationBoard}/>
-                <RaisedButton label="SEARCH" primary={true} onTouchTap={this.onSearchClick}/>
+                <RaisedButton label="SEARCH" primary={true} onTouchTap={this.onSearchClick} className="button"/>
             </div>
         );
     }

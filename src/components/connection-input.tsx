@@ -14,23 +14,10 @@ export class ConnectionInput extends React.Component<ConnectionInputProps, any> 
         const connection = this.props.connection;
         const stationBoard = this.props.stationBoard;
         return (
-            !stationBoard ?
-                <div>
-                    <div className="form-group">
-                        <label htmlFor="from">From:</label>
-                        <AutosuggestingInput connection={connection} index={0}/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="to">To:</label>
-                        <AutosuggestingInput connection={connection} index={1}/>
-                    </div>
-                </div> :
-                <div>
-                    <div className="form-group">
-                        <label htmlFor="station">Departures from:</label>
-                        <AutosuggestingInput connection={connection} index={0}/>
-                    </div>
-                </div>
+            <div>
+                <AutosuggestingInput connection={connection} index={0}/>
+                <AutosuggestingInput connection={connection} index={1}/>
+            </div>
         );
     }
 }
