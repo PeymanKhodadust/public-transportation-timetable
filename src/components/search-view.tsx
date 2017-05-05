@@ -75,7 +75,7 @@ export class SearchView extends React.Component<viewProps, {}> {
         const searchInput = this.props.store.searchInput;
         const toggleTimeModeLabel = this.props.store.isArrival ? "Departure" : "Arrival";
         const sb = this.props.store.isStationBoard;
-        const toggleSearchModeLabel = sb ? "Connection" : "Station Board";
+        const toggleSearchModeLabel = sb ? "Connection" : "Stationboard";
         return (
             <div>
                 <h1>Swiss Public Transportation</h1>
@@ -83,6 +83,8 @@ export class SearchView extends React.Component<viewProps, {}> {
                     label={toggleSearchModeLabel}
                     onToggle={this.handleToggleSearchMode}
                     toggled={this.props.store.isStationBoard}
+                    style={ {marginTop: "30px !important", width: "30% !important"} }
+                    className="sb-toggle"
                 />
                 <SearchInput
                     connection={searchInput}
@@ -92,22 +94,23 @@ export class SearchView extends React.Component<viewProps, {}> {
                 {
                     sb ? [] :
                     <Toggle
-                    label={toggleTimeModeLabel}
-                    onToggle={this.handleToggleTimeMode}
-                    toggled={this.props.store.isArrival}
+                        label={toggleTimeModeLabel}
+                        onToggle={this.handleToggleTimeMode}
+                        toggled={this.props.store.isArrival}
+                        className="arrivalToggle"
                     />
                 }
                 <DatePicker
                     onChange={this.handleChangeDate}
                     autoOk={true}
                     floatingLabelText="Date"
-                    className="picker"
+                    className="datePicker"
                 />
                 <TimePicker
                     floatingLabelText="Time"
                     autoOk={true}
                     onChange={this.handleChangeTime}
-                    className="picker"
+                    className="timePicker"
                 />
                 <RaisedButton label="SEARCH" primary={true} onTouchTap={this.handleSearchClick} className="button"/>
             </div>

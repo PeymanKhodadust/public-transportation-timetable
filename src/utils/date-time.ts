@@ -4,7 +4,7 @@ export class DateTime {
         let res: string;
         res = date.getHours() < 10 ? "0" + date.getHours() : date.getHours().toString() ;
         res += ":";
-        res += date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        res += date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes().toString();
         return res;
     }
 

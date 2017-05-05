@@ -45,8 +45,8 @@ export class AutosuggestingInput extends React.Component<AutosuggestingInputProp
 
     render() {
         const lable = this.props.label;
+        const styles = {width: "100%", outerWidth: "100%"};
         return (
-            <div>
                 <AutoComplete
                     floatingLabelText={lable}
                     dataSource={this.state.suggestions}
@@ -56,8 +56,8 @@ export class AutosuggestingInput extends React.Component<AutosuggestingInputProp
                     filter={AutoComplete.caseInsensitiveFilter}
                     maxSearchResults={6}
                     className="searchInput"
+                    style={styles}
                 />
-            </div>
         );
     }
 }
