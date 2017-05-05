@@ -2,8 +2,9 @@ import * as React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import { Table, TableBody, TableRow, TableRowColumn } from "material-ui/Table";
 
-import {ConnectionSection} from "./connection-section";
+import {ConnectionDetail} from "./connection-detail";
 import {stateEnum, viewProps} from "../utils/interfaces";
+import { JourneyDetail } from "./journey-detail";
 
 export class DetailView extends React.Component<viewProps, {}> {
 
@@ -16,17 +17,22 @@ export class DetailView extends React.Component<viewProps, {}> {
     }
 
     render() {
-        const connection = this.props.store.detailedConnection;
-        const journeySections = connection.sections.map((section, index) => {
-            return <ConnectionSection section={section} key={"connection-section-no-" + index}/>;
-        });
+        const resultDetail = this.props.store.resultDetail;
+        const sb = this.props.store.isStationBoard;
+        const journeySections = sb ?
+            resultDetail.passList.map((item, index) => {
+                return <JourneyDetail passListItem={item} key={"journey-detail-no-" + index + 1}/>
+            }) :
+            resultDetail.sections.map((item, index) => {
+                return <ConnectionDetail section={item} key={"connection-section-no-" + index + 1}/>
+            });
         return (
             <div>
-                <h5>
-                    { "from: " + this.props.store.connectionInput[0]}
+                <h2>
+                    { (sb ? (resultDetail.name + " f") : "F" ) + "rom " + this.props.store.searchInput[0]}
                     <br />
-                    {"to: " + this.props.store.connectionInput[1]}
-                </h5>
+                    {"To " + (sb ? resultDetail.to : resultDetail.to.station.name) }
+                </h2>
                 <Table>
                     <TableBody
                         showRowHover={true}

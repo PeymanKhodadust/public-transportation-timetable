@@ -3,7 +3,7 @@ import {TableRow, TableRowColumn} from "material-ui/Table";
 
 import {DateTime} from "../utils/date-time";
 
-export class ConnectionSection extends React.Component<any, any> {
+export class ConnectionDetail extends React.Component<any, {}> {
     constructor(props: any) {
         super(props);
     }
@@ -35,7 +35,6 @@ export class ConnectionSection extends React.Component<any, any> {
                         <div>
                             {section.arrival.station.name}
                         </div>
-
                     </TableRowColumn>
                 </TableRow>
             );
@@ -47,7 +46,6 @@ export class ConnectionSection extends React.Component<any, any> {
                 </TableRow>
             );
         }
-        //console.log("connection-section s: " + JSON.stringify(s));
         return s;
     }
 }

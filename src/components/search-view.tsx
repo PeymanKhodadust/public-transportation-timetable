@@ -2,12 +2,16 @@ import * as React from "react";
 import * as MobxReact from "mobx-react";
 import RaisedButton from "material-ui/RaisedButton";
 import * as injectTapEventPlugin from "react-tap-event-plugin";
+import Toggle from "material-ui/Toggle";
+import DatePicker from "material-ui/DatePicker";
+import TimePicker from "material-ui/TimePicker";
 
-import { ConnectionInput } from "./connection-input";
+import { SearchInput } from "./search-input";
 import { viewProps, stateEnum } from "../utils/interfaces";
 import { ajax } from "../utils/ajax";
+import { DateTime } from "../utils/date-time";
 
-const connectionUrl = "http://transport.opendata.ch/v1/connections?from=";
+const baseUrl = "http://transport.opendata.ch/v1/";
 
 injectTapEventPlugin();
 
@@ -17,19 +21,25 @@ export class SearchView extends React.Component<viewProps, {}> {
         super(props);
     }
 
-    onSearchClick = () => {
-        const from = this.props.store.connectionInput[0];
-        const to = this.props.store.connectionInput[1];
-        //const sb = this.props.store.stationBoard;
+    handleSearchClick = () => {
+        const from = this.props.store.searchInput[0];
+        const to = this.props.store.searchInput[1];
+        const date = DateTime.getFormattedDateString(this.props.store.dateTime);
+        const time = DateTime.getFormattedTimeString(this.props.store.dateTime);
+        const arr = this.props.store.isArrival;
+        const sb = this.props.store.isStationBoard;
 
-        const url = connectionUrl + from + "&to=" + to;
-
-        //const now = new Date();
+        const url = baseUrl + (sb ?
+                "stationboard?station=" + from + "&time=" + date + " " + time + + time + "&limit=6" + (arr ? "&type=arrival" : "")
+                :
+                "connections?from=" + from + "&to=" + to + "&date=" + date + "&time=" + (arr?"&isArrivalTime=1":"")
+        );
+        console.log(url);
         ajax.get(url)
             .then(JSON.parse)
             .then((res) => {
-                this.props.store.connections = res.connections;
-                if(this.props.store.connections.length > 0)
+                this.props.store.searchResult = sb ? res.stationboard : res.connections;
+                if(this.props.store.searchResult.length > 0)
                     this.props.store.appState = stateEnum.result;
                     console.log("StateChange: ---" + this.props.store.appState);
             }, () => {
@@ -38,25 +48,68 @@ export class SearchView extends React.Component<viewProps, {}> {
             );
     }
 
-    onModeChange = (event) => {
+    handleSearchModeChange = (event) => {
         console.log("radio button .......:" + event.target.value);
-        this.props.store.stationBoard = event.target.value == "stationBoard" ? true : false;
+        this.props.store.isStationBoard = !this.props.store.isStationBoard;
+    }
+
+    handleToggleTimeMode = (e, i) => {
+        this.props.store.isArrival = ! this.props.store.isArrival;
+    }
+
+    handleToggleSearchMode = (e, i) => {
+        this.props.store.isStationBoard = ! this.props.store.isStationBoard;
+    }
+
+    handleChangeDate = (n, d) => {
+        this.props.store.dateTime.setDate(d.getDate());
+        this.props.store.dateTime.setFullYear(d.getFullYear());
+        this.props.store.dateTime.setMonth(d.getMonth());
+    }
+
+    handleChangeTime = (n, d) => {
+        this.props.store.dateTime.setTime(d.getTime());
     }
 
     render() {
-        const connection = this.props.store.connectionInput;
-        const sb = this.props.store.stationBoard;
+        const searchInput = this.props.store.searchInput;
+        const toggleTimeModeLabel = this.props.store.isArrival ? "Departure" : "Arrival";
+        const sb = this.props.store.isStationBoard;
+        const toggleSearchModeLabel = sb ? "Connection" : "Station Board";
         return (
             <div>
-              {/*  <fieldset onChange={this.onModeChange}>
-                    <input type="radio" id="con" name="stationBoard" value="connection" checked={!sb}/>
-                    <label htmlFor="con">connection</label>
-                    <br />
-                    <input type="radio" id="sb" name="stationBoard" value="stationBoard" checked={sb}/>
-                    <label htmlFor="sb">stationboard</label>
-                </fieldset>*/}
-                <ConnectionInput connection={connection} stationBoard={this.props.store.stationBoard}/>
-                <RaisedButton label="SEARCH" primary={true} onTouchTap={this.onSearchClick} className="button"/>
+                <h1>Swiss Public Transportation</h1>
+                <Toggle
+                    label={toggleSearchModeLabel}
+                    onToggle={this.handleToggleSearchMode}
+                    toggled={this.props.store.isStationBoard}
+                />
+                <SearchInput
+                    connection={searchInput}
+                    isStationBoard={this.props.store.isStationBoard}
+                    isArrival={this.props.store.isArrival}
+                />
+                {
+                    sb ? [] :
+                    <Toggle
+                    label={toggleTimeModeLabel}
+                    onToggle={this.handleToggleTimeMode}
+                    toggled={this.props.store.isArrival}
+                    />
+                }
+                <DatePicker
+                    onChange={this.handleChangeDate}
+                    autoOk={true}
+                    floatingLabelText="Date"
+                    className="picker"
+                />
+                <TimePicker
+                    floatingLabelText="Time"
+                    autoOk={true}
+                    onChange={this.handleChangeTime}
+                    className="picker"
+                />
+                <RaisedButton label="SEARCH" primary={true} onTouchTap={this.handleSearchClick} className="button"/>
             </div>
         );
     }

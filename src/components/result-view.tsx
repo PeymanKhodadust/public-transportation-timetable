@@ -4,6 +4,7 @@ import RaisedButton from "material-ui/RaisedButton";
 
 import {stateEnum, viewProps} from "../utils/interfaces";
 import { ConnectionOverview } from "./connection-overview";
+import { JourneyOverview } from "./journey-overview";
 
 export class ResultView extends React.Component<viewProps, {}> {
     constructor(props: any) {
@@ -15,23 +16,30 @@ export class ResultView extends React.Component<viewProps, {}> {
     }
 
     onDetailClick = (key) => {
-        this.props.store.detailedConnection = this.props.store.connections[key];
+        this.props.store.resultDetail = this.props.store.searchResult[key];
         this.props.store.appState = stateEnum.detail;
     }
     render() {
-        const connections = this.props.store.connections.map((connection, index) => {
-           return  <ConnectionOverview connection={ connection } store={this.props.store} key={"connection-overview-no-" + index + 1}/>;
+        const sb = this.props.store.isStationBoard;
+        const searchResult = this.props.store.searchResult.map((item, index) => {
+           return  sb ?
+               <JourneyOverview journey={item} key={"journey-overview-no-" + index + 1}/> :
+               <ConnectionOverview connection={ item } key={"connection-overview-no-" + index + 1}/>;
         });
         return (
             <div>
-                <h3>{ "from: " + this.props.store.connectionInput[0] + ", to: " + this.props.store.connectionInput[1]}</h3>
+                <h2>
+                    { (sb ? "Departures f" : "F" ) + "rom " + this.props.store.searchInput[0] }
+                    { sb ? [] : <br /> }
+                    { sb ? "" : "To " + this.props.store.searchInput[1] }
+                </h2>
                 <Table onRowSelection={this.onDetailClick}>
                     <TableBody
                         showRowHover={true}
                         displayRowCheckbox={false}
                         selectable={true}
                     >
-                        { connections }
+                        { searchResult }
                     </TableBody>
                 </Table>
                 <RaisedButton label="Go Back" primary={true} onTouchTap={this.onReturnClick} className="button"/>

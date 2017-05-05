@@ -4,19 +4,25 @@ import {stateEnum} from "../utils/interfaces"
 export class ConnectionStore {
 
     @Mobx.observable
-    connectionInput: string[];
+    searchInput: string[];
 
     @Mobx.observable
-    connections: any[];
+    searchResult: any[];
 
     @Mobx.observable
     appState: stateEnum;
 
     @Mobx.observable
-    detailedConnection: any;
+    resultDetail: any;
 
     @Mobx.observable
-    stationBoard: boolean;
+    isStationBoard: boolean;
+
+    @Mobx.observable
+    isArrival: boolean;
+
+    @Mobx.observable
+    dateTime: Date;
 
 
     constructor(){
@@ -24,14 +30,18 @@ export class ConnectionStore {
         Mobx.autorun(() => console.log(this.report));
     }
     public init() {
-        this.connectionInput = ["", ""];
+        this.searchInput = ["", ""];
+        this.searchResult = [];
+        this.resultDetail = {};
         this.appState = stateEnum.search;
-        this.stationBoard = false;
+        this.isStationBoard = false;
+        this.isArrival = false;
+        this.dateTime = new Date();
     }
     @Mobx.computed
     public get report(): string {
-        return "Object stateEnum: \n from: " + this.connectionInput[0] + ", to: " + this.connectionInput[1]
-            /*+ "\nconnections: " + JSON.stringify(this.connections)*/;
+        return "Object stateEnum: \n from: " + this.searchInput[0] + ", to: " + this.searchInput[1]
+            /*+ "\nsearchResult: " + JSON.stringify(this.searchResult)*/;
     }
 }
 
