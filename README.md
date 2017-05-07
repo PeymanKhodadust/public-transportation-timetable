@@ -1,7 +1,7 @@
 # public-transportation-app
 An app for querying the public transport REST api in switzerland.
 
-prerequisite: node and npm. You can get it [here](https://www.npmjs.com/get-npm).
+Prerequisite: node and npm. You can get it [here](https://www.npmjs.com/get-npm).
 
 
 git clone:
