@@ -5,7 +5,7 @@ Prerequisite: node and npm. You can get it [here](https://www.npmjs.com/get-npm)
 
 
 git clone:
-`$ git clone https://github.engineering.zhaw.ch/smart-mirror/public-transportation-app`
+`$ git clone git@github.com:PeymanKhodadust/public-transportation-timetable.git`
 
 or download the ziped package, unpack and cd to the project directory. Fallow the instructions below to install, build and start the application.
 

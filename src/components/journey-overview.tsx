@@ -9,7 +9,7 @@ export class JourneyOverview extends React.Component<{journey: any}, {}> {
     }
 
     render() {
-        const { journey, ...otherProps}  = this.props;
+        const { journey, children, ...otherProps}  = this.props;
         const depTime = new Date(journey.stop.departure);
         const goal = this.props.journey.to;
         const transportName = this.props.journey.name;

@@ -11,7 +11,7 @@ export class ConnectionOverview extends React.Component<ConnectionOverviewProps,
     }
 
     render() {
-        const { connection, ...otherProps}  = this.props;
+        const { connection, children, ...otherProps}  = this.props;
         const dep = new Date(connection.from.departure);
         const arr = new Date(connection.to.arrival);
         const sections = connection.sections.map((section, index) => {
