@@ -30,9 +30,9 @@ export class SearchView extends React.Component<viewProps, {}> {
         const sb = this.props.store.isStationBoard;
 
         const url = baseUrl + (sb ?
-                "stationboard?station=" + from + "&time=" + date + " " + time + + time + "&limit=6" + (arr ? "&type=arrival" : "")
+                "stationboard?station=" + from + "&datetime=" + date + " " + time + "&limit=6" + (arr ? "&type=arrival" : "")
                 :
-                "connections?from=" + from + "&to=" + to + "&date=" + date + "&time=" + (arr?"&isArrivalTime=1":"")
+                "connections?from=" + from + "&to=" + to + "&date=" + date + "&time=" +  time + (arr?"&isArrivalTime=1":"")
         );
         console.log(url);
         ajax.get(url)
@@ -41,7 +41,7 @@ export class SearchView extends React.Component<viewProps, {}> {
                 this.props.store.searchResult = sb ? res.stationboard : res.connections;
                 if(this.props.store.searchResult.length > 0)
                     this.props.store.appState = stateEnum.result;
-                    console.log("StateChange: ---" + this.props.store.appState);
+                    //console.log("StateChange: ---" + this.props.store.appState);
             }, () => {
                     console.log("get request for connectons failed");
                 }
@@ -67,7 +67,11 @@ export class SearchView extends React.Component<viewProps, {}> {
     }
 
     handleChangeTime = (n, d) => {
-        this.props.store.dateTime.setTime(d.getTime());
+        let tmp = new Date();
+        tmp = this.props.store.dateTime;
+        tmp.setTime(d.getTime());
+        this.props.store.dateTime = tmp;
+
     }
 
     render() {

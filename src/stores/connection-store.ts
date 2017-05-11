@@ -41,7 +41,7 @@ export class ConnectionStore {
     @Mobx.computed
     public get report(): string {
         return "Object stateEnum: \n from: " + this.searchInput[0] + ", to: " + this.searchInput[1]
-            /*+ "\nsearchResult: " + JSON.stringify(this.searchResult)*/;
+            + "\nsearchResult: " + JSON.stringify(this.dateTime);
     }
 }
 

@@ -5,6 +5,7 @@ export class DateTime {
         res = date.getHours() < 10 ? "0" + date.getHours() : date.getHours().toString() ;
         res += ":";
         res += date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes().toString();
+        console.log("return value of date-time: " + res);
         return res;
     }
 
