@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TableRow, TableRowColumn } from "material-ui/Table";
 
-import {ConnectionOverviewProps, stateEnum} from "../utils/interfaces";
+import {ConnectionOverviewProps} from "../utils/interfaces";
 import {DateTime} from "../utils/date-time";
 
 export class ConnectionOverview extends React.Component<ConnectionOverviewProps, {}> {

@@ -49,7 +49,6 @@ export class SearchView extends React.Component<viewProps, {}> {
     }
 
     handleSearchModeChange = (event) => {
-        console.log("radio button .......:" + event.target.value);
         this.props.store.isStationBoard = !this.props.store.isStationBoard;
     }
 
